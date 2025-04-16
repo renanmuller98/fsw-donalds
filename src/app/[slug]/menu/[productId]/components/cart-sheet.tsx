@@ -11,7 +11,7 @@ import {
 import { formatCurrency } from "@/helpers/format-currency-";
 
 import CartProductItem from "../../components/cart-product-item";
-import FinishOrderDialog from "../../components/finish-order-button";
+import FinishOrderDialog from "../../components/finish-order-dialog";
 import { CartContext } from "../../context/cart";
 
 const CartSheet = () => {
