@@ -1,3 +1,9 @@
+import { db } from "@/lib/prisma";
+
+import { isValidCpf, removeCpfPunctuation } from "../menu/helpers/cpf";
+import CpfForm from "./components/cpf-form";
+import OrderList from "./components/order-list";
+
 interface OrderPageProps {
   searchParams: Promise<{ cpf: string }>;
 }
@@ -5,8 +11,33 @@ interface OrderPageProps {
 const OrdersPage = async ({ searchParams }: OrderPageProps) => {
   const { cpf } = await searchParams;
   if (!cpf) {
+    return <CpfForm />;
   }
-  return <h1>Orders</h1>;
+
+  if (!isValidCpf(cpf)) {
+    return <CpfForm />;
+  }
+
+  const orders = await db.order.findMany({
+    where: {
+      customerCpf: removeCpfPunctuation(cpf),
+    },
+    include: {
+      restaurant: {
+        select: {
+          name: true,
+          avatarImageUrl: true,
+        },
+      },
+      orderProducts: {
+        include: {
+          product: true,
+        },
+      },
+    },
+  });
+
+  return <OrderList orders={orders} />;
 };
 
 export default OrdersPage;
