@@ -36,7 +36,7 @@ const RestaurantsMenuPage = async ({
   }
   return (
     <div>
-      <RestaurantHeader restaurant={restaurant} />
+      <RestaurantHeader params={{ slug }} restaurant={restaurant} />
       <RestaurantCategories restaurant={restaurant} />
     </div>
   );

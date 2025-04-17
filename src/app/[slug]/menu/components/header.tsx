@@ -8,12 +8,17 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
 interface RestaurantHeaderProps {
+  params: { slug: string };
   restaurant: Pick<Restaurant, "coverImageUrl" | "name">;
 }
 
-const RestaurantHeader = ({ restaurant }: RestaurantHeaderProps) => {
+const RestaurantHeader = ({ restaurant, params }: RestaurantHeaderProps) => {
+  const { slug } = params;
   const router = useRouter();
   const handleBackClick = () => router.back();
+  const handleOrderList = () => {
+    router.push(`/${slug}/orders`);
+  };
   return (
     <div className="relative h-[250px] w-full">
       <Button
@@ -34,6 +39,7 @@ const RestaurantHeader = ({ restaurant }: RestaurantHeaderProps) => {
         variant={"secondary"}
         size={"icon"}
         className="absolute right-4 top-4 z-50 rounded-full"
+        onClick={handleOrderList}
       >
         <ScrollTextIcon />
       </Button>
